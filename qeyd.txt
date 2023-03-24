@@ -1,0 +1,16 @@
+
+
+# Category ve sub category ucun
+    # pip install django-mptt
+    # https://django-mptt.readthedocs.io/en/latest/
+    # https://django-mptt.readthedocs.io/en/latest/install.html
+    # https://django-mptt.readthedocs.io/en/latest/tutorial.html
+
+# Ckeditor
+    # https://django-ckeditor.readthedocs.io/en/latest/
+    # https://django-ckeditor.readthedocs.io/en/latest/#installation
+
+
+
+
+
