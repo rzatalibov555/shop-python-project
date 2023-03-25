@@ -149,12 +149,12 @@
                         <div class="slick-single-layout">
                         <div class="axil-product">
                             <div class="thumbnail">
-                                <a href="single-product.html">
+                                <a href="{% url "products:detail" releated_product.id %}">
                                     <img style="height: 300px; object-fit: cover;" src="{{ releated_product.productimage_set.first.image.url }}" alt="{{ releated_product.name }}">
                                 </a>
-                                {% if product.discount %}
+                                {% if releated_product.discount %}
                                     <div class="label-block label-right">
-                                        <div class="product-badget">{{ product.discount|floatformat:0  }} &#8380; endirim</div>
+                                        <div class="product-badget">{{ releated_product.discount|floatformat:0  }} &#8380; endirim</div>
                                     </div>
                                 {% endif %}
 
@@ -168,15 +168,15 @@
                             </div>
                             <div class="product-content">
                                 <div class="inner">
-                                    <h5 class="title"><a href="single-product.html">{{ product.name }}</a></h5>
-                                   {% if product.total_price %}
+                                    <h5 class="title"><a href="{% url "products:detail" releated_product.id %}">{{ releated_product.name }}</a></h5>
+                                   {% if releated_product.total_price %}
                                        <div class="product-price-variant">
-                                           <span class="price current-price">{{ product.total_price|formatize }} &#8380;</span>
-                                           <span class="price old-price" style="color: red">{{ product.price|formatize }} &#8380;</span>
+                                           <span class="price current-price">{{ releated_product.total_price|formatize }} &#8380;</span>
+                                           <span class="price old-price" style="color: red">{{ releated_product.price|formatize }} &#8380;</span>
                                        </div>
                                    {% else %}
                                        <div class="product-price-variant">
-                                           <span class="price current-price">{{ product.price|formatize }} &#8380;</span>
+                                           <span class="price current-price">{{ releated_product.price|formatize }} &#8380;</span>
                                        </div>
                                    {% endif %}
                                     <div class="color-variant-wrapper">
