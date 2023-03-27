@@ -11,6 +11,9 @@
     # https://django-ckeditor.readthedocs.io/en/latest/#installation
 
 
+# Deyer None qaytarirsa onu sifirlamaq if ile
+https://bobbyhadz.com/blog/python-typeerror-unsupported-operand-type-for-plus-nonetype-and-int#unsupported-operand-types-for--nonetype-and-int
+
 
 
 

@@ -24,9 +24,9 @@
                                             {% endfor %}
 
                                         </div>
-                                        {% if product.discount_persentage %}
+                                        {% if product.in_sale and product.discount_persentage %}
                                         <div class="label-block">
-                                            <div class="product-badget">{{ product.discount_price|floatformat:0 }} &#8380; endirim</div>
+                                            <div class="product-badget">{{ product.discount_persentage|floatformat:0 }}% endirim</div>
                                         </div>
                                         {% endif %}
 
@@ -47,8 +47,9 @@
                             <div class="single-product-content">
                                 <div class="inner">
                                     <h2 class="product-title">{{ product.name }}</h2>
-                                    {% if product.total_price %}
-                                        <span class="price-amount"> <del style="color: red">{{ product.price|formatize }} &#8380;</del> - {{ product.total_price|formatize }} &#8380;</span>
+{#                                    {% if product.total_price %}#}
+                                    {% if product.in_sale and product.discount_persentage %}
+                                        <span class="price-amount"> <del style="color: red">{{ product.price|formatize }} &#8380;</del> - {{ product.discount_price|formatize }} &#8380;</span>
                                     {% else %}
                                         <span class="price-amount">{{ product.price|floatformat:2 }} &#8380;</span>
                                     {% endif %}
@@ -152,9 +153,9 @@
                                     <a href="{% url "products:detail" releated_product.id %}">
                                         <img style="height: 300px; object-fit: cover;" src="{{ releated_product.productimage_set.first.image.url }}" alt="{{ releated_product.name }}">
                                     </a>
-                                    {% if releated_product.discount %}
+                                    {% if releated_product.in_sale and releated_product.discount_persentage %}
                                         <div class="label-block label-right">
-                                            <div class="product-badget">{{ releated_product.discount|floatformat:0  }} &#8380; endirim</div>
+                                            <div class="product-badget">{{ releated_product.discount_persentage|floatformat:0  }}% endirim</div>
                                         </div>
                                     {% endif %}
 
@@ -169,9 +170,9 @@
                                 <div class="product-content">
                                     <div class="inner">
                                         <h5 class="title"><a href="{% url "products:detail" releated_product.id %}">{{ releated_product.name }}</a></h5>
-                                       {% if releated_product.total_price %}
+                                       {% if releated_product.in_sale and releated_product.discount_persentage %}
                                            <div class="product-price-variant">
-                                               <span class="price current-price">{{ releated_product.total_price|formatize }} &#8380;</span>
+                                               <span class="price current-price">{{ releated_product.discount_price|formatize }} &#8380;</span>
                                                <span class="price old-price" style="color: red">{{ releated_product.price|formatize }} &#8380;</span>
                                            </div>
                                        {% else %}

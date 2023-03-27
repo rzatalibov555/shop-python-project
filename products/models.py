@@ -64,7 +64,9 @@ class Product(DateMixin):
     # class Meta: # admin terefde products tabledaki cixacaq text
     #     verbose_name = "Mehsul"             # tek halda
     #     verbose_name_plural = "Mehsullar"   # cem halda
-#TODO detail icinde price ve persentageleri cixart
+
+# TODO detail icinde price ve persentageleri cixart
+
 class ProductImage(DateMixin):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     image = models.ImageField(upload_to=Uploader.upload_image_to_product)

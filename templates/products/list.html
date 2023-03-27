@@ -1041,7 +1041,7 @@
                                                 <a href="{% url "products:detail" product.id %}">
                                                     <img style="height: 300px; object-fit: cover;" data-sal="zoom-out" data-sal-delay="100" data-sal-duration="1500" src="{{ product.productimage_set.first.image.url }}" alt="{{ product.name }}">
                                                 </a>
-                                                {% if product.discount %}
+                                               {% if product.in_sale and product.discount_persentage %}
                                                 <div class="label-block label-right">
                                                     <div class="product-badget">{{ product.discount_persentage|floatformat:0  }} % endirim</div>
                                                 </div>
@@ -1057,10 +1057,10 @@
                                             <div class="product-content">
                                                 <div class="inner">
                                                     <h5 class="title"><a href="{% url "products:detail" product.id %}">{{ product.name }}</a></h5>
-                                                    {% if product.total_price %}
+                                                    {% if product.in_sale and product.discount_persentage %}
                                                     <div class="product-price-variant">
-                                                        <span class="price current-price">{{ product.discount_price|formatize }} &#8380;</span>
-                                                        <span class="price old-price">{{ product.price|formatize }} &#8380;</span>
+                                                        <span class="price current-price text-success">{{ product.discount_price|formatize }} &#8380;</span>
+                                                        <span class="price old-price text-danger">{{ product.price|formatize }} &#8380;</span>
                                                     </div>
                                                     {% else %}
                                                         <div class="product-price-variant">
