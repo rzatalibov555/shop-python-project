@@ -8,7 +8,8 @@ from services.uploader import Uploader
 User = get_user_model()
 
 class Category(MPTTModel, DateMixin):
-    name = models.CharField(max_length=50, unique=True)
+    # name = models.CharField(max_length=50, unique=True) # unique=True  - unik olsunlar deye istifade olunur
+    name = models.CharField(max_length=50)
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
 
     def __str__(self):
