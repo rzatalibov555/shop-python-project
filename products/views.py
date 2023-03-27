@@ -4,6 +4,9 @@ from django.db.models import F, FloatField
 from django.db.models.functions import Coalesce
 
 
+
+
+
 def index_view(request):
 
     categories = Category.objects.filter(parent__isnull = True)

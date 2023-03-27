@@ -1043,7 +1043,7 @@
                                                 </a>
                                                 {% if product.discount %}
                                                 <div class="label-block label-right">
-                                                    <div class="product-badget">{{ product.discount|floatformat:0  }} &#8380; endirim</div>
+                                                    <div class="product-badget">{{ product.discount_persentage|floatformat:0  }} % endirim</div>
                                                 </div>
                                                 {% endif %}
                                                 <div class="product-hover-action">
@@ -1059,7 +1059,7 @@
                                                     <h5 class="title"><a href="{% url "products:detail" product.id %}">{{ product.name }}</a></h5>
                                                     {% if product.total_price %}
                                                     <div class="product-price-variant">
-                                                        <span class="price current-price">{{ product.total_price|formatize }} &#8380;</span>
+                                                        <span class="price current-price">{{ product.discount_price|formatize }} &#8380;</span>
                                                         <span class="price old-price">{{ product.price|formatize }} &#8380;</span>
                                                     </div>
                                                     {% else %}
