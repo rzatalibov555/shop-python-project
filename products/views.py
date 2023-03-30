@@ -3,10 +3,6 @@ from .models import Category, Product
 from django.db.models import F, FloatField
 from django.db.models.functions import Coalesce
 
-
-
-
-
 def index_view(request):
 
     categories = Category.objects.filter(parent__isnull = True)
@@ -21,9 +17,7 @@ def index_view(request):
         "products": products
     }
 
-    return render(request, "products/list.html", context)
-
-
+    return render(request, "products/index.html", context)
 
 def product_detail_view(request, id):
 
@@ -52,7 +46,22 @@ def product_detail_view(request, id):
     }
     return render(request, "products/detail.html", context)
 
+def product_list_view(request):
 
+    products = Product.objects.annotate(
+        discount=Coalesce("discount_price", 0, output_field=FloatField())
+    ).annotate(
+        total_price=F("price") - F("discount_price")
+    ).order_by("-created_at")
+
+    categories = Category.objects.filter(parent__isnull=True)
+
+    context = {
+        "products": products,
+        "categories": categories,
+    }
+
+    return render(request, "products/list.html", context)
 
 
 

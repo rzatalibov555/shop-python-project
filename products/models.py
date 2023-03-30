@@ -9,11 +9,21 @@ User = get_user_model()
 
 class Category(MPTTModel, DateMixin):
     # name = models.CharField(max_length=50, unique=True) # unique=True  - unik olsunlar deye istifade olunur
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, verbose_name="Kateqoriya")
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = "Kateqoriyalar"
+        verbose_name_plural = "Kateqoriya"
+        ordering = ['-created_at']
+
+
+
+
+
 
 
 class Product(DateMixin):
@@ -43,18 +53,23 @@ class Product(DateMixin):
 
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    name = models.CharField(max_length=300)
-    description = RichTextField(blank=True, null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Kateqoriya")
+    name = models.CharField(max_length=300, verbose_name="Məsulun adı")
+    description = RichTextField(blank=True, null=True, verbose_name="Açıqlama")
 
-    price = models.FloatField()
-    in_sale = models.BooleanField(default=False)
-    discount_persentage = models.IntegerField(choices=persentage, null=True, blank=True)
-    discount_price = models.FloatField(blank=True, null=True)
+    price = models.FloatField( verbose_name="Qiymət")
+    in_sale = models.BooleanField(default=False , verbose_name="Endirimdə")
+    discount_persentage = models.IntegerField(choices=persentage, null=True, blank=True, verbose_name="Endirim %")
+    discount_price = models.FloatField(blank=True, null=True, verbose_name="Endirimli qiymət")
 
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = "Mehsullar"
+        verbose_name_plural = "Mehsullar"
+        ordering = ['-created_at','discount_price']
 
     def save(self, *args, **kwargs):  #endirimli qiymeti ozu hesablayir
         if self.in_sale:
@@ -67,9 +82,24 @@ class Product(DateMixin):
 
 # TODO detail icinde price ve persentageleri cixart
 
+
+
+
+
+
+
+
+
+
+
 class ProductImage(DateMixin):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     image = models.ImageField(upload_to=Uploader.upload_image_to_product)
+
+    class Meta:
+        verbose_name = "Məhsul şəkilləri"
+        verbose_name_plural = "Məhsulların şəkilləri"
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.product.name

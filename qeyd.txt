@@ -15,5 +15,7 @@
 https://bobbyhadz.com/blog/python-typeerror-unsupported-operand-type-for-plus-nonetype-and-int#unsupported-operand-types-for--nonetype-and-int
 
 
+#context_processor - Global kimi iwleyir
+
 
 
