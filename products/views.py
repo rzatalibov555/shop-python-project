@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Category, Product
 from django.db.models import F, FloatField, Q
 from django.db.models.functions import Coalesce
+from django.core.paginator import Paginator
 
 def index_view(request):
 
@@ -18,6 +19,14 @@ def index_view(request):
     }
 
     return render(request, "products/index.html", context)
+
+
+
+
+
+
+
+
 
 def product_detail_view(request, id):
 
@@ -46,7 +55,17 @@ def product_detail_view(request, id):
     }
     return render(request, "products/detail.html", context)
 
+
+
+
+
+
+
+
+
 def product_list_view(request):
+
+    filter_dict = {}  #melumati icine doldurub sehifeye gondermek ucun.
 
     products = Product.objects.annotate(
         discount=Coalesce("discount_price", 0, output_field=FloatField()),
@@ -69,13 +88,14 @@ def product_list_view(request):
             Q(category__parent__id=int(category)) |
             Q(category__parent__parent__id=int(category))
         )
+        filter_dict['category_id'] = int(category)
 
     min_price = request.GET.get("min_price", None)
     max_price = request.GET.get("max_price", None)
 
     if min_price:
         products = products.filter(sorting_price__gte=min_price)
-
+        filter_dict['min_price'] = min_price
         # products = products.filter(
         #     Q(discount_price__gte=min_price) |
         #     Q(price__gte=min_price)
@@ -83,12 +103,32 @@ def product_list_view(request):
 
     if max_price:
         products = products.filter(sorting_price__lte=max_price)
+        filter_dict['max_price'] = max_price
+
+
+    order = request.GET.get("order",None)
+    if order:
+
+        filter_dict["order"] = "latest"
+
+        if order == "oldest":
+            products = products.order_by("created_at")
+            filter_dict["order"] = order
+
+        if order == "expensive":
+            products = products.order_by("-sorting_price")
+            filter_dict["order"] = order
+
+        if order == "cheap":
+            products = products.order_by("sorting_price")
+            filter_dict["order"] = order
 
 
 
     context = {
         "products": products,
         "categories": categories,
+        "filter_dict": filter_dict
     }
 
     return render(request, "products/list.html", context)

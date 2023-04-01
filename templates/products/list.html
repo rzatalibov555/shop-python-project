@@ -50,9 +50,9 @@
                                         <div class="col-lg-3 col-md-3 col-sm-3 col-lg-3">
                                             <!-- Start Single Select  -->
                                             <select class="single-select" name="category">
-                                                <option value="">-KATEQORIYA SEÇİN-</option>
+                                                <option value="">-KATEQORİYA SEÇİN-</option>
                                                 {% for category in categories %}
-                                                    <option value="{{ category.id }}">{{ category.name }}</option>
+                                                    <option value="{{ category.id }}" {% if filter_dict.category_id == category.id %} SELECTED {% endif %} >{{ category.name }}</option>
                                                 {% endfor %}
                                             </select>
                                             <!-- End Single Select  -->
@@ -60,13 +60,15 @@
                                         <!-- Start Single Select  -->
                                         <div class="col-lg-2 col-md-2 col-sm-2 col-lg-2  mt--10 ml--15">
                                             <div class="form-group">
-                                                <input type="number" name="min_price" class="inp_style" id="min_price" placeholder="Minimum AZN">
+                                                <input type="number" name="min_price" class="inp_style" id="min_price" placeholder="Minimum AZN" {% if filter_dict.min_price %} value="{{ filter_dict.min_price }}" {% endif %}>
+                                                
+
                                             </div>
                                         </div>
 
                                         <div class="col-lg-2 col-md-2 col-sm-2 col-lg-2 mt--10 ml--10">
                                             <div class="form-group">
-                                                <input type="number" name="max_price" class="inp_style" id="max_price" placeholder="Maksimum AZN">
+                                                <input type="number" name="max_price" class="inp_style" id="max_price" placeholder="Maksimum AZN" {% if filter_dict.max_price %} value="{{ filter_dict.max_price }}" {% endif %}>
                                             </div>
                                         </div>
 
@@ -84,11 +86,11 @@
                                 <div class="col-lg-3">
                                     <div class="category-select mt_md--10 mt_sm--10 justify-content-lg-end">
                                         <!-- Start Single Select  -->
-                                        <select class="single-select">
-                                            <option>Sort by Latest</option>
-                                            <option>Sort by Name</option>
-                                            <option>Sort by Price</option>
-                                            <option>Sort by Viewed</option>
+                                        <select class="single-select" name="order">
+                                            <option {% if filter_dict.order == "latest" %} selected {% endif %} value="latest">Son tarixə görə</option>
+                                            <option {% if filter_dict.order == "oldest" %} selected {% endif %} value="oldest">Köhnə tarixə görə</option>
+                                            <option {% if filter_dict.order == "expensive" %} selected {% endif %} value="expensive">Əvvəlcə bahalı</option>
+                                            <option {% if filter_dict.order == "cheap" %} selected {% endif %} value="cheap">Əvvəlcə ucuz</option>
                                         </select>
                                         <!-- End Single Select  -->
                                     </div>
