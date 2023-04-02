@@ -45,6 +45,10 @@ INSTALLED_APPS = [
     'products.apps.ProductsConfig',
 
 
+    #templatetags
+    'products.templatetags.pagination',
+
+
     #third party apps
     "mptt",
     "ckeditor",

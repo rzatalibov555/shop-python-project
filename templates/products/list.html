@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load change_value_format %}
+{% load pagination %}
 
 
 
@@ -142,7 +143,56 @@
                     {% endfor %}
                 </div>
                 <div class="text-center pt--30">
-                    <a href="#" class="axil-btn btn-bg-lighter btn-load-more">Load more</a>
+{#                    <a href="#" class="axil-btn btn-bg-lighter btn-load-more">Load more</a>#}
+
+                    {% if products.paginator.num_pages > 1 %}
+                        <nav class="custome-pagination">
+                            <ul class="pagination">
+                                {% if products.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ products.previous_page_number }}&{% for key, val in filter_dict.items %}{{ key }}={{ val }}&{% endfor %}">Previous</a>
+                                    </li>
+                                {% endif %}
+
+        {#                      {% for i in products.paginator|create_range:products %}#}
+                                {% for i in products.paginator.page_range %}
+                                    <li class="page-item {% if products.number == i %} active {% endif %}">
+                                        <a class="page-link" href="?page={{i}}&{% for key, val in filter_dict.items %}{{ key }}={{ val }}&{% endfor %}">{{i}}</a>
+                                    </li>
+                                {% endfor %}
+
+                                {% if products.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ products.next_page_number }}&{% for key, val in filter_dict.items %}{{ key }}={{ val }}&{% endfor %}">Next</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    {% endif %}
+{#                PAGINATION V1#}
+{#                    <nav class="custome-pagination">#}
+{#                        <ul class="pagination justify-content-center">#}
+{#                            {% if products.has_previous %}#}
+{#                            <li class="page-item">#}
+{#                                <a class="page-link" href="?page={{ products.previous_page_number }}&{% for val in filter_dict %}{{val}}{% endfor %}" tabindex="-1" aria-disabled="true">#}
+{#                                    <i class="fa-solid fa-angles-left"></i>#}
+{#                                </a>#}
+{#                            </li>#}
+{#                            {% endif %}#}
+{#                            {% for i in products.paginator.page_range %}#}
+{#                                    <li class="page-item {% if products.number == i %}active{% endif %}">#}
+{#                                        <a class="page-link" href="?page={{i}}&{% for val in filter_dict %}{{val}}{% endfor %}">{{i}}</a>#}
+{#                                    </li>#}
+{#                            {% endfor %}#}
+{#                            {% if products.has_next %}#}
+{#                            <li class="page-item">#}
+{#                                <a class="page-link" href="?page={{ products.next_page_number }}&{% for val in filter_dict %}{{val}}{% endfor %}">#}
+{#                                    <i class="fa-solid fa-angles-right"></i>#}
+{#                                </a>#}
+{#                            </li>#}
+{#                            {% endif %}#}
+{#                        </ul>#}
+{#                    </nav>#}
                 </div>
             </div>
             <!-- End .container -->

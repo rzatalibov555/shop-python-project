@@ -108,25 +108,30 @@ def product_list_view(request):
 
     order = request.GET.get("order",None)
     if order:
-
         filter_dict["order"] = "latest"
-
         if order == "oldest":
             products = products.order_by("created_at")
             filter_dict["order"] = order
-
         if order == "expensive":
             products = products.order_by("-sorting_price")
             filter_dict["order"] = order
-
         if order == "cheap":
             products = products.order_by("sorting_price")
             filter_dict["order"] = order
 
 
+    #TODO: Pagination filterlerden sonra yazilir.
+
+    paginator = Paginator(products,5)
+    page = request.GET.get("page",1)
+    product_list = paginator.get_page(page)
+
 
     context = {
-        "products": products,
+        # "products": products,   #paginationsuz
+
+        "products": product_list, # pagination olanda
+        # "paginator": paginator,   # paginationda list ucun lazim olacaq (countuna gore pagination gorunsun yoxsa yox. if-de)
         "categories": categories,
         "filter_dict": filter_dict
     }
