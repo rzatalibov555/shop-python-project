@@ -43,11 +43,7 @@ INSTALLED_APPS = [
 
     # 'products',
     'products.apps.ProductsConfig',
-
-
-    #templatetags
-    'products.templatetags.pagination',
-
+    'accounts',
 
     #third party apps
     "mptt",

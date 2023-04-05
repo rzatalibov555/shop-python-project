@@ -122,7 +122,7 @@ def product_list_view(request):
 
     #TODO: Pagination filterlerden sonra yazilir.
 
-    paginator = Paginator(products,5)
+    paginator = Paginator(products,8)
     page = request.GET.get("page",1)
     product_list = paginator.get_page(page)
 
