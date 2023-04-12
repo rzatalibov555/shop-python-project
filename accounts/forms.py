@@ -10,14 +10,14 @@ class LoginForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ("username", "password")
+        fields = ("email", "password")
 
 
     def clean(self):
-        username = self.cleaned_data.get("username")
+        email = self.cleaned_data.get("email")
         password = self.cleaned_data.get("password")
 
-        user = authenticate(username=username, password=password) # check user in db
+        user = authenticate(email=email, password=password) # check user in db
 
         if not user:
             raise forms.ValidationError("Username or password invalid")
@@ -39,7 +39,7 @@ class RegisterForm(forms.ModelForm):
     password_confirm = forms.CharField(widget=forms.PasswordInput)
     class Meta:
         model = User
-        fields = ("username", "email", "first_name", "last_name", "password", "password_confirm")
+        fields = ("email", "fullname", "password", "password_confirm")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -48,15 +48,15 @@ class RegisterForm(forms.ModelForm):
             self.fields[field].required = True  # ce ya inputun oz icinde daxil edirik required=True kifayet edir.
 
     def clean(self):
-        username = self.cleaned_data.get("username")
+        email = self.cleaned_data.get("email")
         password = self.cleaned_data.get("password")
         password_confirm = self.cleaned_data.get("password_confirm")
 
-        if User.objects.filter(username=username).exists():
-            raise forms.ValidationError("This username already exists")
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("This email already exists")
 
         if len(password) < 6:
-            raise forms.ValidationError("Minimum lenght is 6")
+            raise forms.ValidationError("Minimum length is 6")
 
         if password != password_confirm:
             raise forms.ValidationError("Passwords dont match")

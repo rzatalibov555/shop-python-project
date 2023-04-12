@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     "ckeditor",
 ]
 
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -61,6 +63,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Shop.urls'
+
+AUTH_USER_MODEL = "accounts.MyUser"
+
 
 TEMPLATES = [
     {
