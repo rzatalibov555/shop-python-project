@@ -1,10 +1,15 @@
-from django.shortcuts import render, redirect
+#TODO: "https://docs.djangoproject.com/en/4.2/topics/email/#email-backends"  # send mail ucun documentation
+
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import LoginForm, RegisterForm
 from django.contrib.auth import get_user_model, authenticate, login, logout
 # Create your views here.
 from services.generator import Generator
 from django.utils import timezone
 from django.contrib.auth import get_user_model
+from django.core.mail import send_mail
+from django.conf import settings
+from django.contrib import messages
 
 User = get_user_model()
 
@@ -51,15 +56,21 @@ def register_view(request):
             new_user.save()
 
             # send mail part
+            send_mail(
+                "Activation_code",
+                f"Hi, welcome! Your activation code: <b>{new_user.activation_code}</b> \n Good luck!",
+                settings.EMAIL_HOST_USER,
+                [new_user.email]
+            )
 
             # login(request, new_user)
-            return redirect("/")
+            return redirect("accounts:activate-account", slug=new_user.slug)
         else:
             print(form.errors)
 
 
     context = {
-        "form":form
+        "form": form
     }
 
     return render(request, "accounts/register.html", context)
@@ -69,3 +80,24 @@ def register_view(request):
 def logout_view(request):
     logout(request)
     return redirect("/")
+
+
+def activation_account_view(request, slug):
+    user = get_object_or_404(User, slug=slug)
+
+    if request.method == "POST":
+        code = request.POST.get("code")
+
+        if code == user.activation_code:
+            user.is_active = True
+            user.activation_code = None
+            user.activation_code_expires_at = None
+            user.save()
+
+            login(request, user)
+            return redirect("/")
+        else:
+            messages.error(request, "Sizin daxil etdiyiniz kod yalnisdir.")
+
+    context = {}
+    return render(request, "accounts/activate.html", context)
