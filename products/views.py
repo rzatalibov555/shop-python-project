@@ -3,6 +3,7 @@ from .models import Category, Product
 from django.db.models import F, FloatField, Q
 from django.db.models.functions import Coalesce
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 
 def index_view(request):
 
@@ -62,7 +63,7 @@ def product_detail_view(request, id):
 
 
 
-
+@login_required(login_url="/login/")
 def product_list_view(request):
 
     filter_dict = {}  #melumati icine doldurub sehifeye gondermek ucun.

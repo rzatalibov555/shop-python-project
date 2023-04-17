@@ -73,7 +73,11 @@
                             <ul class="quick-link">
                                 <li><a href="#">Help</a></li>
                                 <li><a href="sign-up.html">Join Us</a></li>
-                                <li><a href="sign-in.html">Sign In</a></li>
+                                {% if user.is_authenticated %}
+                                    <li><a href="{% url "accounts:logout" %}">LogOut</a></li>
+                                {% else %}
+                                    <li><a href="{% url "accounts:login" %}">Sign In</a></li>
+                                {% endif %}
                             </ul>
                         </div>
                     </div>
@@ -195,21 +199,30 @@
                                 <div class="my-account-dropdown">
                                     <span class="title">QUICKLINKS</span>
                                     <ul>
-                                        <li>
-                                            <a href="my-account.html">My Account</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Initiate return</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Support</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Language</a>
-                                        </li>
+                                        {% if user.is_authenticated %}
+                                            <li>
+                                                <a href="my-account.html">My Account</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Initiate return</a>
+                                            </li>
+                                        {% endif %}
+                                            <li>
+                                                <a href="#">Support</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Language</a>
+                                            </li>
                                     </ul>
-                                    <a href="sign-in.html" class="axil-btn btn-bg-primary">Login</a>
-                                    <div class="reg-footer text-center">No account yet? <a href="sign-up.html" class="btn-link">REGISTER HERE.</a></div>
+                                    {% if user.is_authenticated %}
+                                        <a href="{% url "accounts:logout" %}" class="axil-btn btn-bg-primary">LogOut</a>
+                                    {% else %}
+                                         <a href="{% url "accounts:login" %}" class="axil-btn btn-bg-primary">Login</a>
+                                    {% endif %}
+                                    <hr>
+                                    {% if not user.is_authenticated %}
+                                        <div class="reg-footer text-center">No account yet? <a href="{% url 'accounts:register' %}" class="btn-link">REGISTER HERE.</a></div>
+                                    {% endif %}
                                 </div>
                             </li>
                             <li class="axil-mobile-toggle">

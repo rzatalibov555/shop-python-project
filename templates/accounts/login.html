@@ -30,6 +30,11 @@
 
 </head>
 
+<style>
+    .axil-signin-form ul li{
+        color: red;
+    }
+</style>
 
 <body>
     <div class="axil-signin-area">
@@ -43,7 +48,7 @@
                 <div class="col-sm-8">
                     <div class="singin-header-btn">
                         <p>Not a member?</p>
-                        <a href="sign-up.html" class="axil-btn btn-bg-secondary sign-up-btn">Sign Up Now</a>
+                        <a href="{% url "accounts:register" %}" class="axil-btn btn-bg-secondary sign-up-btn">Sign Up Now</a>
                     </div>
                 </div>
             </div>
@@ -60,7 +65,13 @@
                 <div class="axil-signin-form-wrap">
                     <div class="axil-signin-form">
                         <h3 class="title">Sign in to eTrade.</h3>
-                        <p class="b2 mb--55">Enter your detail below</p>
+                          {% if form.errors %}
+                                <div id="form_errors">
+                                    {% for key, value in form.errors.items %}
+                                         <p>{{ value }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                         <form class="singin-form" method="POST">
                             {% csrf_token %}
                             <div class="form-group">

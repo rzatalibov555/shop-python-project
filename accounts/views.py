@@ -17,16 +17,22 @@ User = get_user_model()
 def login_view(request):
 
     form = LoginForm()
+    next_url = request.GET.get('next', None)
+
+
 
     if request.method == "POST":
         form = LoginForm(request.POST or None)
 
         if form.is_valid():
-            username = form.cleaned_data.get("username")
+            email = form.cleaned_data.get("email")
             password = form.cleaned_data.get("password")
-            user = authenticate(username=username, password=password)
+            user = authenticate(email=email, password=password)
 
             login(request, user)
+
+            if next_url:
+                return redirect(next_url)
             return redirect('/')
 
         else:

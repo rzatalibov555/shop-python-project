@@ -44,7 +44,7 @@
                 <div class="col-md-6">
                     <div class="singin-header-btn">
                         <p>Already a member?</p>
-                        <a href="sign-in.html" class="axil-btn btn-bg-secondary sign-up-btn">Sign In</a>
+                        <a href="{% url "accounts:login" %}" class="axil-btn btn-bg-secondary sign-up-btn">Sign In</a>
                     </div>
                 </div>
             </div>
@@ -57,11 +57,31 @@
                     <h3 class="title">We Offer the Best Products</h3>
                 </div>
             </div>
+            <style>
+                .axil-signin-form ul li{
+                    color: red;
+                }
+            </style>
             <div class="col-lg-6 offset-xl-2">
                 <div class="axil-signin-form-wrap">
                     <div class="axil-signin-form">
                         <h3 class="title">I'm New Here</h3>
-                        <p class="b2 mb--55">Enter your detail below</p>
+
+{#                            {% for message in messages %}#}
+{#                                {% if message %}#}
+{#                                   <p class="b2 mb--55" style="color: red"> {{ message }}</p>#}
+{#                                {% endif %}#}
+{#                            {% endfor %}#}
+
+                            {% if form.errors %}
+                                <div id="form_errors">
+                                    {% for key, value in form.errors.items %}
+                                         <p>{{ value }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+
                         <form class="singin-form" method="post">
                             {% csrf_token %}
 
